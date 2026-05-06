@@ -1,55 +1,117 @@
 {% set name = "runner" %}
-{% set version = "1.3" %}
+{% set version = "2.0.0" %}
 
-package:
-  name: {{ name|lower }}
-  version: "{{ version }}"
-
+# TODO: Update sha256 once v{{ version }} is tagged on GitLab and publicly accessible:
+#   curl -sL https://gitlab.com/runner-suite/runner2/-/archive/v{{ version }}/runner2-v{{ version }}.tar.gz | sha256sum
 source:
-  url: https://gitlab.com/runner-suite/runner-conda/-/archive/{{ version }}/runner-conda-{{ version }}.tar.gz
-  sha256: 69965dcfde64530b7a75708c25e6243363e0a5745e66ac458a1e7086592538a2
-  patches:
-    - mpi.patch  # [mpi != 'nompi']
-    - gnu.patch
+  url: https://gitlab.com/runner-suite/runner2/-/archive/v{{ version }}/runner2-v{{ version }}.tar.gz
+  sha256: 0000000000000000000000000000000000000000000000000000000000000000
 
-build:
-  number: 6
-  skip: ture  # [win]
+outputs:
+  # -----------------------------------------------------------------------
+  # runner — compiled with GCC/gfortran, linked against OpenBLAS via the
+  # conda-forge libblas abstraction layer.  Ships both the serial
+  # (RuNNer.x) and MPI-parallel (RuNNer_mpi.x) executables and is
+  # available on Linux and macOS (x86-64 and ARM64).
+  # -----------------------------------------------------------------------
+  - name: runner
+    build:
+      number: 0
+      skip: true  # [win]
+      string: {{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+    script: build_gnu.sh
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ stdlib('c') }}
+        - {{ compiler('fortran') }}
+        - cmake
+        - make
+        - llvm-openmp  # [osx]
+        - libgomp      # [linux]
+        - {{ mpi }}-mpifort
+      host:
+        - libblas
+        - liblapack
+        - fftw
+        - {{ mpi }}
+      run:
+        - libblas
+        - liblapack
+        - fftw
+        - {{ mpi }}
+      run_constrained:
+        # runner and runner-intel install the same binary paths and are
+        # therefore mutually exclusive.
+        - runner-intel <0a0
+    test:
+      commands:
+        - RuNNer.x --version
+        - RuNNer_mpi.x --version
 
-requirements:
-  build:
-    - {{ compiler('c') }}
-    - {{ stdlib("c") }}
-    - {{ compiler('fortran') }}
-    - make
-    - llvm-openmp  # [osx]
-    - libgomp      # [linux]
-    - {{ mpi }}-mpifort  # [mpi != 'nompi']
-  host:
-    - libblas
-    - liblapack
-    - {{ mpi }}  # [mpi != 'nompi']
-  run:
-    - {{ mpi }}  # [mpi != 'nompi']
-
-test:
-  commands:
-    - RuNNer.serial.x
+  # -----------------------------------------------------------------------
+  # runner-intel — compiled with Intel ifx and linked against Intel MKL
+  # for maximum throughput on Intel CPUs.  Linux x86-64 only.
+  # Only the serial executable (RuNNer.x) is provided; MPI support for
+  # the Intel variant is not yet available (see README.md).
+  #
+  # This output is built exclusively in the mpich CI matrix cell to avoid
+  # generating duplicate packages across the MPI variant axis.
+  # -----------------------------------------------------------------------
+  - name: runner-intel
+    build:
+      number: 0
+      skip: true  # [not linux or mpi != 'mpich']
+      string: mkl_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+    script: build_intel.sh
+    requirements:
+      build:
+        - cmake
+        - make
+        - ifx_linux-64
+      host:
+        - mkl-devel
+        - mkl-include
+        - intel-cmplr-lib-rt
+      run:
+        - mkl
+        - intel-openmp
+        - intel-fortran-rt
+        - intel-cmplr-lib-rt
+      run_constrained:
+        - runner <0a0
+    test:
+      commands:
+        - RuNNer.x --version
+        - ldd $(which RuNNer.x) | grep -i mkl
 
 about:
-  home: https://www.uni-goettingen.de/de/560580.html
+  home: https://www.theochem2.ruhr-uni-bochum.de/tc/software/runner.html.en
   license: GPL-3.0-or-later
   license_family: GPL
   license_file: LICENSE
   summary: 'RuNNer - a Neural Network code for high-dimensional systems'
   description: |
-    In order to develop Neural Network potential-energy surfaces for a 
-    variety of system, we have developed our in-house NN code for 
-    high-dimensional systems called RuNNer, which was the first 
-    implementation of high-dimensional NN potentials. Much of the 
-    methodology has been originally developed with this code.
-  doc_url: https://www.uni-goettingen.de/de/560580.html
-  dev_url: https://gitlab.com/TheochemGoettingen/runner-wfas/
+    RuNNer is a software framework for the development of Behler-Parrinello
+    high-dimensional neural network potentials (HDNNPs), actively developed
+    at Ruhr Universität Bochum, Germany.
+
+    Two build variants are available from this feedstock:
+
+    runner
+      Compiled with GCC/gfortran, linked against OpenBLAS.  Provides both
+      the serial executable (RuNNer.x) and the MPI-parallel executable
+      (RuNNer_mpi.x).  Available on Linux and macOS.
+
+    runner-intel
+      Compiled with Intel ifx and linked against Intel MKL for maximum
+      performance on Intel CPUs.  Provides the serial executable (RuNNer.x)
+      only; MPI support is not yet available in this variant.  Linux x86-64
+      only.
+
+    The two variants are mutually exclusive: install one or the other.
+  doc_url: https://runner-suite.gitlab.io/runner2
+  dev_url: https://gitlab.com/runner-suite/runner2
 
 extra:
   recipe-maintainers:
