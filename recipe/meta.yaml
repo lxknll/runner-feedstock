@@ -11,6 +11,9 @@ source:
   url: https://gitlab.com/runner-suite/runner2/-/archive/v{{ version }}/runner2-v{{ version }}.tar.gz
   sha256: 0000000000000000000000000000000000000000000000000000000000000000
 
+build:
+  number: 0
+
 outputs:
   # -----------------------------------------------------------------------
   # runner — compiled with GCC/gfortran, linked against OpenBLAS via the
