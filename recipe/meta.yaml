@@ -34,6 +34,7 @@ outputs:
         - {{ compiler('fortran') }}
         - cmake
         - make
+        - m4
         - llvm-openmp  # [osx]
         - libgomp      # [linux]
         - {{ mpi }}-mpifort
@@ -75,6 +76,7 @@ outputs:
       build:
         - cmake
         - make
+        - m4
         - ifx_linux-64
       host:
         - mkl-devel
