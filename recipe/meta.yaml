@@ -1,15 +1,15 @@
 {% set name = "runner" %}
-{% set version = "2.0.0" %}
+{% set version = "2.0.0_20260512" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
-# TODO: Update sha256 once v{{ version }} is tagged on GitLab and publicly accessible:
-#   curl -sL https://gitlab.com/runner-suite/runner2/-/archive/v{{ version }}/runner2-v{{ version }}.tar.gz | sha256sum
+# Obtain the checksum using
+# curl -sL https://gitlab.com/runner-suite/runner2/-/archive/v{{ version }}/runner2-v{{ version }}.tar.gz | sha256sum
 source:
   url: https://gitlab.com/runner-suite/runner2/-/archive/v{{ version }}/runner2-v{{ version }}.tar.gz
-  sha256: 0000000000000000000000000000000000000000000000000000000000000000
+  sha256: c362553ae2aaaac7acea89ae2d3cf5a210fc0992943a9b39ad43d27208e420df
 
 build:
   number: 0
