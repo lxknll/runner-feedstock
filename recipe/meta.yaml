@@ -84,7 +84,7 @@ outputs:
         - intel-cmplr-lib-rt
       run:
         - mkl
-        - intel-openmp
+        - llvm-openmp
         - intel-fortran-rt
         - intel-cmplr-lib-rt
       run_constrained:
