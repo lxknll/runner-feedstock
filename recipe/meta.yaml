@@ -8,7 +8,7 @@ package:
 # Obtain the checksum using
 # curl -sL https://gitlab.com/runner-suite/runner2/-/archive/v{{ version }}/runner2-v{{ version }}.tar.gz | sha256sum
 source:
-  url: https://gitlab.com/runner-suite/runner2/-/archive/v{{ version }}/runner2-v{{ version }}.tar.gz
+  url: https://gitlab.com/runner-suite/runner2/-/archive/{{ version }}/runner2-{{ version }}.tar.gz
   sha256: c362553ae2aaaac7acea89ae2d3cf5a210fc0992943a9b39ad43d27208e420df
 
 build:
