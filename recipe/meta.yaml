@@ -88,13 +88,13 @@ about:
 
     Two build variants are provided under the single package name ``runner``:
 
-    runner [runner_variant=gnu]
+    gnu
       Compiled with GCC/gfortran, linked against OpenBLAS via the conda-forge
       libblas abstraction layer.  Provides both the serial executable
       (RuNNer.x) and the MPI-parallel executable (RuNNer_mpi.x).  Available
       on Linux and macOS (x86-64 and ARM64).
 
-    runner [runner_variant=intel]
+    intel
       Compiled with Intel ifx and linked against Intel MKL for maximum
       throughput on Intel CPUs.  Provides the serial executable (RuNNer.x)
       only; MPI support is not yet available in this variant.  Linux x86-64
@@ -102,11 +102,11 @@ about:
 
     To select the Intel variant explicitly::
 
-      conda install "runner=*=mkl_*"
+      conda install "runner=*=intel*"
 
     To select the GNU/OpenBLAS variant explicitly::
 
-      conda install "runner=*=mpich_*"   # or openmpi_*
+      conda install "runner=*=gnu*"
   doc_url: https://runner-suite.gitlab.io/runner2
   dev_url: https://gitlab.com/runner-suite/runner2
 
