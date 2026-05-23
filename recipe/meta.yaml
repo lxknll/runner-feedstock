@@ -25,39 +25,55 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}       # [runner_variant == 'gnu']
-    - {{ stdlib('c') }}         # [runner_variant == 'gnu']
-    - {{ compiler('fortran') }} # [runner_variant == 'gnu']
+    {% if runner_variant == 'gnu' %}
+    - {{ compiler('c') }}
+    - {{ stdlib('c') }}
+    - {{ compiler('fortran') }}
+    - llvm-openmp  # [osx]
+    - libgomp  # [linux]
+    - {{ mpi }}-mpifort
+    {% endif %}
     - cmake
     - make
     - m4
-    - llvm-openmp    # [osx and runner_variant == 'gnu']
-    - libgomp        # [linux and runner_variant == 'gnu']
-    - {{ mpi }}-mpifort  # [runner_variant == 'gnu']
-    - ifx_linux-64   # [runner_variant == 'intel']
+    {% if runner_variant == 'intel' %}
+    - ifx_linux-64
+    {% endif %}
   host:
-    - libblas             # [runner_variant == 'gnu']
-    - liblapack           # [runner_variant == 'gnu']
-    - fftw                # [runner_variant == 'gnu']
-    - {{ mpi }}           # [runner_variant == 'gnu']
-    - mkl-devel           # [runner_variant == 'intel']
-    - mkl-include         # [runner_variant == 'intel']
-    - intel-cmplr-lib-rt  # [runner_variant == 'intel']
+    {% if runner_variant == 'gnu' %}
+    - libblas
+    - liblapack
+    - fftw
+    - {{ mpi }}
+    {% endif %}
+    {% if runner_variant == 'intel' %}
+    - mkl-devel
+    - mkl-include
+    - intel-cmplr-lib-rt
+    {% endif %}
   run:
-    - libblas             # [runner_variant == 'gnu']
-    - liblapack           # [runner_variant == 'gnu']
-    - fftw                # [runner_variant == 'gnu']
-    - {{ mpi }}           # [runner_variant == 'gnu']
-    - mkl                 # [runner_variant == 'intel']
-    - llvm-openmp         # [runner_variant == 'intel']
-    - intel-fortran-rt    # [runner_variant == 'intel']
-    - intel-cmplr-lib-rt  # [runner_variant == 'intel']
+    {% if runner_variant == 'gnu' %}
+    - libblas
+    - liblapack
+    - fftw
+    - {{ mpi }}
+    {% endif %}
+    {% if runner_variant == 'intel' %}
+    - mkl
+    - llvm-openmp
+    - intel-fortran-rt
+    - intel-cmplr-lib-rt
+    {% endif %}
 
 test:
   commands:
     - RuNNer.x --version
-    - RuNNer_mpi.x --version               # [runner_variant == 'gnu']
-    - ldd $(which RuNNer.x) | grep -i mkl  # [runner_variant == 'intel']
+    {% if runner_variant == 'gnu' %}
+    - RuNNer_mpi.x --version
+    {% endif %}
+    {% if runner_variant == 'intel' %}
+    - ldd $(which RuNNer.x) | grep -i mkl
+    {% endif %}
 
 about:
   home: https://www.theochem2.ruhr-uni-bochum.de/tc/software/runner.html.en
