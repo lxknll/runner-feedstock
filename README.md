@@ -17,43 +17,26 @@ RuNNer is a software framework for the development of Behler-Parrinello
 high-dimensional neural network potentials (HDNNPs), actively developed
 at Ruhr Universität Bochum, Germany.
 
+Four build variants are provided under the single package name ``runner``:
 
-Available packages
-==================
+gnu
+  GCC/gfortran, OpenBLAS, serial only.  Linux and macOS.
 
-This feedstock produces two mutually exclusive packages.  Install **one**
-of them — they cannot coexist in the same conda environment because they
-provide the same binary paths.
+gnu_mpi
+  GCC/gfortran, OpenBLAS, OpenMPI parallel build.  Linux and macOS.
 
-### `runner` — GCC / OpenBLAS (recommended for most users)
+intel
+  Intel ifx, MKL, serial only.  Linux x86-64 only.
 
-Compiled with GCC/gfortran and linked against OpenBLAS via the
-conda-forge `libblas` abstraction layer.
+intel_mpi
+  Intel ifx, MKL, Intel MPI parallel build.  Linux x86-64 only.
 
-| Executable | Description |
-|---|---|
-| `RuNNer.x` | Serial (single-process) build |
-| `RuNNer_mpi.x` | MPI-parallel build (mpich or openmpi variant) |
+Select a specific variant with a build-string glob, e.g.::
 
-Available on Linux x86-64 and macOS (x86-64, arm64).
-
-### `runner-intel` — Intel ifx / MKL (maximum performance on Intel CPUs)
-
-Compiled with Intel's LLVM-based Fortran compiler (`ifx`) and linked
-against Intel MKL for optimal performance on Intel processors.
-
-| Executable | Description |
-|---|---|
-| `RuNNer.x` | Serial (single-process) build |
-
-Available on Linux x86-64 only.
-
-> **Note — no MPI support in runner-intel**
-> The MPI-parallel build (`RuNNer_mpi.x`) is not yet available in the
-> `runner-intel` variant.  The Intel Fortran + MPI toolchain integration
-> is still under development.  If you need MPI-parallel execution, use
-> the `runner` package instead.
-
+  conda install "runner=*=gnu_*"   # GNU serial
+  conda install "runner=*=gnu_mpi_*"   # GNU parallel
+  conda install "runner=*=intel_*"   # Intel serial
+  conda install "runner=*=intel_mpi_*"   # Intel parallel
 
 Current build status
 ====================
@@ -73,31 +56,59 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64_mpimpich (runner + runner-intel)</td>
+              <td>linux_64_runner_variantgnu</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_mpimpich" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_runner_variantgnu" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_mpiopenmpi (runner only)</td>
+              <td>linux_64_runner_variantgnu_mpi</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_mpiopenmpi" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_runner_variantgnu_mpi" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_mpimpich (runner only)</td>
+              <td>linux_64_runner_variantintel</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_mpimpich" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_runner_variantintel" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_mpiopenmpi (runner only)</td>
+              <td>linux_64_runner_variantintel_mpi</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_mpiopenmpi" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_runner_variantintel_mpi" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_runner_variantgnu</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_runner_variantgnu" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_runner_variantgnu_mpi</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_runner_variantgnu_mpi" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_runner_variantintel</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_runner_variantintel" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_runner_variantintel_mpi</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_runner_variantintel_mpi" alt="variant">
                 </a>
               </td>
             </tr>
@@ -114,54 +125,53 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-runner-green.svg)](https://anaconda.org/conda-forge/runner) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/runner.svg)](https://anaconda.org/conda-forge/runner) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/runner.svg)](https://anaconda.org/conda-forge/runner) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/runner.svg)](https://anaconda.org/conda-forge/runner) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-runner--intel-green.svg)](https://anaconda.org/conda-forge/runner-intel) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/runner-intel.svg)](https://anaconda.org/conda-forge/runner-intel) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/runner-intel.svg)](https://anaconda.org/conda-forge/runner-intel) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/runner-intel.svg)](https://anaconda.org/conda-forge/runner-intel) |
 
 Installing runner
 =================
 
-Add the `conda-forge` channel and install your preferred variant:
+Installing `runner` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-GCC / OpenBLAS variant (recommended):
+Once the `conda-forge` channel has been enabled, `runner` can be installed with `conda`:
 
 ```
 conda install runner
 ```
 
-Intel ifx / MKL variant (Linux only, serial only):
+or with `mamba`:
 
 ```
-conda install runner-intel
+mamba install runner
 ```
 
-Or with `mamba`:
-
-```
-mamba install runner          # GCC + OpenBLAS
-mamba install runner-intel    # Intel ifx + MKL
-```
-
-To list all available builds on your platform:
+It is possible to list all of the versions of `runner` available on your platform with `conda`:
 
 ```
 conda search runner --channel conda-forge
-conda search runner-intel --channel conda-forge
 ```
 
+or with `mamba`:
 
-Automatic version updates
-=========================
+```
+mamba search runner --channel conda-forge
+```
 
-The conda-forge autotick bot (regro-cf-autotick-bot) monitors the
-upstream GitLab repository for new release tags.  When a new version of
-RuNNer is tagged, the bot automatically opens a pull request to this
-feedstock with the updated version string and source archive checksum.
-Once CI passes and the PR is merged, the new packages are built and
-uploaded to the `conda-forge` channel without any manual intervention.
+Alternatively, `mamba repoquery` may provide more information:
+
+```
+# Search all versions available on your platform:
+mamba repoquery search runner --channel conda-forge
+
+# List packages depending on `runner`:
+mamba repoquery whoneeds runner --channel conda-forge
+
+# List dependencies of `runner`:
+mamba repoquery depends runner --channel conda-forge
+```
 
 
 About conda-forge
@@ -235,3 +245,4 @@ Feedstock Maintainers
 * [@gunnar1987](https://github.com/gunnar1987/)
 * [@jan-janssen](https://github.com/jan-janssen/)
 * [@lxknll](https://github.com/lxknll/)
+
