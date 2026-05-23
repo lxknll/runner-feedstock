@@ -1,7 +1,5 @@
 runner_variant:
   - gnu
+  - gnu_mpi
   - intel
-
-mpi:
-  - mpich
-  - openmpi
+  - intel_mpi

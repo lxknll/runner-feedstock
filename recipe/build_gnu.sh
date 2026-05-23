@@ -35,7 +35,9 @@ compile() {
 mkdir -p "${PREFIX}/bin" "${PREFIX}/lib"
 
 # Serial build: plain gfortran, no MPI
-compile "RuNNer.x"     "libRuNNer.${LIB_EXT}"     "${FC}"   OFF
+compile "RuNNer.x" "libRuNNer.${LIB_EXT}" "${FC}" OFF
 
-# Parallel build: MPI Fortran wrapper (provided by mpich or openmpi)
-compile "RuNNer_mpi.x" "libRuNNer_mpi.${LIB_EXT}" "mpif90"  ON
+# MPI build: only for the gnu_mpi variant; uses the OpenMPI mpif90 wrapper
+if [[ "${runner_variant:-gnu}" == "gnu_mpi" ]]; then
+    compile "RuNNer_mpi.x" "libRuNNer_mpi.${LIB_EXT}" "mpif90" ON
+fi
