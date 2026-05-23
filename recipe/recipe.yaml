@@ -1,0 +1,102 @@
+
+schema_version: 1
+
+context:
+  name: runner
+  version: "2.0.0_20260512"
+
+package:
+  name: "runner"
+  version: ${{ version }}
+
+# Obtain the checksum using
+# curl -sL https://gitlab.com/runner-suite/runner2/-/archive/v{{ version }}/runner2-v{{ version }}.tar.gz | sha256sum
+source:
+  url: https://gitlab.com/runner-suite/runner2/-/archive/${{ version }}/runner2-${{ version }}.tar.gz
+  sha256: c362553ae2aaaac7acea89ae2d3cf5a210fc0992943a9b39ad43d27208e420df
+
+build:
+  number: 0
+  string: "${{runner_variant}}_h${{ PKG_HASH }}_${{ PKG_BUILDNUM }}"
+  skip: not (linux or osx)
+
+requirements:
+  build:
+    - cmake
+    - make
+    - m4
+    - if: not is_intel
+      then:
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - ${{ compiler('fortran') }}
+    - if: not is_intel and linux
+      then:
+        - libgomp
+    - if: not is_intel and osx
+      then:
+        - llvm-openmp
+    - if: with_mpi and not is_intel
+      then:
+        - openmpi-mpifort
+    - if: is_intel
+      then:
+        - ifx_linux-64
+    - if: with_mpi and is_intel
+      then:
+        - impi_rt
+
+tests:
+  - script:
+    - RuNNer.x --version
+    - if: with_mpi
+      then:
+        - RuNNer_mpi.x --version
+    - if: is_intel
+      then:
+        - ldd $(which RuNNer.x) | grep -i mkl
+    - if: is_intel and with_mpi
+      then:
+        - ldd $(which RuNNer_mpi.x) | grep -i mkl
+
+about:
+  homepage: https://www.theochem2.ruhr-uni-bochum.de/tc/software/runner.html.en
+  license: GPL-3.0-or-later
+  license_family: GPL
+  license_file: LICENSE
+  summary: 'RuNNer - a Neural Network code for high-dimensional systems'
+  description: |
+    RuNNer is a software framework for the development of Behler-Parrinello
+    high-dimensional neural network potentials (HDNNPs), actively developed
+    at Ruhr Universität Bochum, Germany.
+
+    Four build variants are provided under the single package name ``runner``:
+
+    gnu
+      GCC/gfortran, OpenBLAS, serial only.  Linux and macOS.
+
+    gnu_mpi
+      GCC/gfortran, OpenBLAS, OpenMPI parallel build.  Linux and macOS.
+
+    intel
+      Intel ifx, MKL, serial only.  Linux x86-64 only.
+
+    intel_mpi
+      Intel ifx, MKL, Intel MPI parallel build.  Linux x86-64 only.
+
+    Select a specific variant with a build-string glob, e.g.::
+
+      conda install "runner=*=gnu_*"   # GNU serial
+      conda install "runner=*=gnu_mpi_*"   # GNU parallel
+      conda install "runner=*=intel_*"   # Intel serial
+      conda install "runner=*=intel_mpi_*"   # Intel parallel
+  documentation: https://runner-suite.gitlab.io/runner2
+  repository: https://gitlab.com/runner-suite/runner2
+
+extra:
+  recipe-maintainers:
+    - Theochem2RUB
+    - gunnar1987
+    - lxknll
+    - M0M097
+    - jan-janssen
