@@ -13,86 +13,51 @@ source:
 
 build:
   number: 0
-
-outputs:
-  # -----------------------------------------------------------------------
-  # runner — compiled with GCC/gfortran, linked against OpenBLAS via the
-  # conda-forge libblas abstraction layer.  Ships both the serial
-  # (RuNNer.x) and MPI-parallel (RuNNer_mpi.x) executables and is
-  # available on Linux and macOS (x86-64 and ARM64).
-  # -----------------------------------------------------------------------
-  - name: runner
-    build:
-      number: 0
-      skip: true  # [win]
-      string: {{ mpi }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
-    script: build_gnu.sh
-    requirements:
-      build:
-        - {{ compiler('c') }}
-        - {{ stdlib('c') }}
-        - {{ compiler('fortran') }}
-        - cmake
-        - make
-        - m4
-        - llvm-openmp  # [osx]
-        - libgomp      # [linux]
-        - {{ mpi }}-mpifort
-      host:
-        - libblas
-        - liblapack
-        - fftw
-        - {{ mpi }}
-      run:
-        - libblas
-        - liblapack
-        - fftw
-        - {{ mpi }}
-      run_constrained:
-        # runner and runner-intel install the same binary paths and are
-        # therefore mutually exclusive.
-        - runner-intel <0a0
-    test:
-      commands:
-        - RuNNer.x --version
-        - RuNNer_mpi.x --version
-
-  # -----------------------------------------------------------------------
-  # runner-intel — compiled with Intel ifx and linked against Intel MKL
-  # for maximum throughput on Intel CPUs.  Linux x86-64 only.
-  # Only the serial executable (RuNNer.x) is provided; MPI support for
-  # the Intel variant is not yet available (see README.md).
-  #
-  # This output is built exclusively in the mpich CI matrix cell to avoid
+  {% if runner_variant == 'intel' %}
+  # Intel variant: Linux x86-64 only; built in the mpich cell to avoid
   # generating duplicate packages across the MPI variant axis.
-  # -----------------------------------------------------------------------
-  - name: runner-intel
-    build:
-      number: 0
-      skip: true  # [not linux or mpi != 'mpich']
-      string: mkl_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
-    script: build_intel.sh
-    requirements:
-      build:
-        - cmake
-        - make
-        - m4
-        - ifx_linux-64
-      host:
-        - mkl-devel
-        - mkl-include
-        - intel-cmplr-lib-rt
-      run:
-        - mkl
-        - llvm-openmp
-        - intel-fortran-rt
-        - intel-cmplr-lib-rt
-      run_constrained:
-        - runner <0a0
-    test:
-      commands:
-        - RuNNer.x --version
-        - ldd $(which RuNNer.x) | grep -i mkl
+  skip: true  # [not linux or mpi != 'mpich']
+  {% else %}
+  skip: true  # [win]
+  {% endif %}
+  string: "{% if runner_variant == 'intel' %}mkl{% else %}{{ mpi }}{% endif %}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}"
+  script: "{% if runner_variant == 'intel' %}build_intel.sh{% else %}build_gnu.sh{% endif %}"
+
+requirements:
+  build:
+    - {{ compiler('c') }}       # [runner_variant == 'gnu']
+    - {{ stdlib('c') }}         # [runner_variant == 'gnu']
+    - {{ compiler('fortran') }} # [runner_variant == 'gnu']
+    - cmake
+    - make
+    - m4
+    - llvm-openmp    # [osx and runner_variant == 'gnu']
+    - libgomp        # [linux and runner_variant == 'gnu']
+    - {{ mpi }}-mpifort  # [runner_variant == 'gnu']
+    - ifx_linux-64   # [runner_variant == 'intel']
+  host:
+    - libblas             # [runner_variant == 'gnu']
+    - liblapack           # [runner_variant == 'gnu']
+    - fftw                # [runner_variant == 'gnu']
+    - {{ mpi }}           # [runner_variant == 'gnu']
+    - mkl-devel           # [runner_variant == 'intel']
+    - mkl-include         # [runner_variant == 'intel']
+    - intel-cmplr-lib-rt  # [runner_variant == 'intel']
+  run:
+    - libblas             # [runner_variant == 'gnu']
+    - liblapack           # [runner_variant == 'gnu']
+    - fftw                # [runner_variant == 'gnu']
+    - {{ mpi }}           # [runner_variant == 'gnu']
+    - mkl                 # [runner_variant == 'intel']
+    - llvm-openmp         # [runner_variant == 'intel']
+    - intel-fortran-rt    # [runner_variant == 'intel']
+    - intel-cmplr-lib-rt  # [runner_variant == 'intel']
+
+test:
+  commands:
+    - RuNNer.x --version
+    - RuNNer_mpi.x --version               # [runner_variant == 'gnu']
+    - ldd $(which RuNNer.x) | grep -i mkl  # [runner_variant == 'intel']
 
 about:
   home: https://www.theochem2.ruhr-uni-bochum.de/tc/software/runner.html.en
@@ -105,20 +70,27 @@ about:
     high-dimensional neural network potentials (HDNNPs), actively developed
     at Ruhr Universität Bochum, Germany.
 
-    Two build variants are available from this feedstock:
+    Two build variants are provided under the single package name ``runner``:
 
-    runner
-      Compiled with GCC/gfortran, linked against OpenBLAS.  Provides both
-      the serial executable (RuNNer.x) and the MPI-parallel executable
-      (RuNNer_mpi.x).  Available on Linux and macOS.
+    runner [runner_variant=gnu]
+      Compiled with GCC/gfortran, linked against OpenBLAS via the conda-forge
+      libblas abstraction layer.  Provides both the serial executable
+      (RuNNer.x) and the MPI-parallel executable (RuNNer_mpi.x).  Available
+      on Linux and macOS (x86-64 and ARM64).
 
-    runner-intel
+    runner [runner_variant=intel]
       Compiled with Intel ifx and linked against Intel MKL for maximum
-      performance on Intel CPUs.  Provides the serial executable (RuNNer.x)
+      throughput on Intel CPUs.  Provides the serial executable (RuNNer.x)
       only; MPI support is not yet available in this variant.  Linux x86-64
       only.
 
-    The two variants are mutually exclusive: install one or the other.
+    To select the Intel variant explicitly::
+
+      conda install "runner=*=mkl_*"
+
+    To select the GNU/OpenBLAS variant explicitly::
+
+      conda install "runner=*=mpich_*"   # or openmpi_*
   doc_url: https://runner-suite.gitlab.io/runner2
   dev_url: https://gitlab.com/runner-suite/runner2
 
