@@ -17,7 +17,7 @@ source:
 
 build:
   number: 0
-  string: "${{runner_variant}}_h${{ PKG_HASH }}_${{ PKG_BUILDNUM }}"
+  string: "${{ runner_variant }}_h${{ PKG_HASH }}_${{ PKG_BUILDNUM }}"
   skip: not (linux or osx)
 
 requirements:
