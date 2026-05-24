@@ -3,3 +3,20 @@ runner_variant:
   - gnu_mpi
   - intel
   - intel_mpi
+
+is_intel:
+  - false
+  - false
+  - true
+  - true
+
+with_mpi:
+  - false
+  - true
+  - false
+  - true
+
+zip_keys:
+  - - runner_variant
+    - is_intel
+    - with_mpi
