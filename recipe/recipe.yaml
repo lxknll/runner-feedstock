@@ -17,7 +17,7 @@ source:
 
 build:
   number: 0
-  string: "${{ runner_variant }}_h${{ PKG_HASH }}_${{ PKG_BUILDNUM }}"
+  string: "${{ runner_variant }}_h${{ hash }}_${{ build_number }}"
   skip: not (linux or osx)
 
 requirements:
@@ -28,7 +28,7 @@ requirements:
     - if: not is_intel
       then:
         - ${{ compiler('c') }}
-        - ${{ stdlib('c') }}
+        # - ${{ stdlib('c') }}
         - ${{ compiler('fortran') }}
     - if: not is_intel and linux
       then:
