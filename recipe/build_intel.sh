@@ -7,6 +7,7 @@ set -euxo pipefail
 export MKL_INTERFACE_LAYER=LP64
 export MKL_THREADING_LAYER=INTEL
 
+
 compile() {
     local EXE=$1 LIB=$2 FC=$3 CC=$4 USE_MPI=$5
     local BUILD_DIR="build_${EXE}"
@@ -36,7 +37,11 @@ compile() {
 mkdir -p "${PREFIX}/bin" "${PREFIX}/lib"
 
 if [[ "${with_mpi}" = "true" ]]; then
-    compile "RuNNer_mpi.x" "libRuNNer_mpi.so" "mpiifx" "mpiicx" ON
+    export FC=$(which mpiifx)
+    export CC=$(which mpiicx)
+    compile "RuNNer_mpi.x" "libRuNNer_mpi.so" "${FC}" "${CC}" ON
 else
-    compile "RuNNer.x" "libRuNNer.so" "ifx" "icx" OFF
+    export FC=$(which ifx)
+    export CC=$(which icx)
+    compile "RuNNer.x" "libRuNNer.so" "${FC}" "${CC}" OFF
 fi
