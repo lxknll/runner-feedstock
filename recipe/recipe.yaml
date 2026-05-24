@@ -25,34 +25,75 @@ requirements:
     - cmake
     - make
     - m4
-    - if: not is_intel
+    - if: is_intel
       then:
+        - ifx_linux-64==2026.0.0
+        - dpcpp_linux-64==2026.0.0
+      else:
         - ${{ compiler('c') }}
-        # - ${{ stdlib('c') }}
+        - ${{ stdlib('c') }}
         - ${{ compiler('fortran') }}
+
+  host:
+    - if: is_intel
+      then:
+        - mkl==2026.0.0
+        - mkl-include==2026.0.0
+        - mkl-devel==2026.0.0
+        - mkl-static==2026.0.0
+        - intel-cmplr-lib-rt==2026.0.0
+      else:
+        - libblas
+        - liblapack
+        - fftw
+    # OpenMP libraries for GNU differ between Linux and OSX.
     - if: not is_intel and linux
       then:
-        - libgomp
+      - libgomp
     - if: not is_intel and osx
       then:
         - llvm-openmp
-    - if: with_mpi and not is_intel
+    # MPI libraries differ between GNU and Intel toolchain.
+    - if: is_intel and with_mpi
       then:
-        - openmpi-mpifort
+        - impi-devel
+    - if: not is_intel and with_mpi
+      then:
+        - openmpi
+
+  run:
     - if: is_intel
       then:
-        - ifx_linux-64
-    - if: with_mpi and is_intel
+        - mkl==2026.0.0
+        - intel-fortran-rt==2026.0.0
+        - intel-cmplr-lib-rt==2026.0.0
+      else:
+        - libblas
+        - liblapack
+        - fftw
+    # OpenMP libraries for GNU differ between Linux and OSX.
+    - if: not is_intel and linux
       then:
-        - impi_rt
+      - libgomp
+    - if: not is_intel and osx
+      then:
+        - llvm-openmp
+    # MPI libraries differ between GNU and Intel toolchain.
+    - if: is_intel and with_mpi
+      then:
+        - impi-devel
+    - if: not is_intel and with_mpi
+      then:
+        - openmpi
 
 tests:
   - script:
-    - RuNNer.x --version
     - if: with_mpi
       then:
         - RuNNer_mpi.x --version
-    - if: is_intel
+      else:
+        - RuNNer.x --version
+    - if: is_intel and not with_mpi
       then:
         - ldd $(which RuNNer.x) | grep -i mkl
     - if: is_intel and with_mpi
