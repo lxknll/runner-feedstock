@@ -14,18 +14,35 @@ channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
+fftw:
+- '3'
 fortran_compiler:
 - gfortran
 fortran_compiler_version:
 - '14'
+impi_devel:
+- 2021.16.0
+is_intel:
+- true
+libblas:
+- 3.9.* *netlib
+liblapack:
+- 3.9.* *netlib
 llvm_openmp:
 - '19'
 macos_machine:
 - x86_64-apple-darwin13.4.0
+openmpi:
+- '5'
 runner_variant:
-- gnu_mpi
+- intel_mpi
 target_platform:
 - osx-64
+with_mpi:
+- true
 zip_keys:
 - - c_compiler_version
   - fortran_compiler_version
+- - runner_variant
+  - is_intel
+  - with_mpi

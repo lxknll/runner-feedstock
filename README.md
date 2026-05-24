@@ -56,59 +56,59 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64_runner_variantgnu</td>
+              <td>linux_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_runner_variantgnu" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_runner_variantgnu_mpi</td>
+              <td>linux_64_is_intelfalserunner_variantgnuwith_mpifalse</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_runner_variantgnu_mpi" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_is_intelfalserunner_variantgnuwith_mpifalse" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_runner_variantintel</td>
+              <td>linux_64_is_inteltruerunner_variantintel_mpiwith_mpitrue</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_runner_variantintel" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_is_inteltruerunner_variantintel_mpiwith_mpitrue" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_runner_variantintel_mpi</td>
+              <td>linux_64_is_inteltruerunner_variantintelwith_mpifalse</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_runner_variantintel_mpi" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_is_inteltruerunner_variantintelwith_mpifalse" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_runner_variantgnu</td>
+              <td>osx_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_runner_variantgnu" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_runner_variantgnu_mpi</td>
+              <td>osx_64_is_intelfalserunner_variantgnuwith_mpifalse</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_runner_variantgnu_mpi" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_intelfalserunner_variantgnuwith_mpifalse" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_runner_variantintel</td>
+              <td>osx_64_is_inteltruerunner_variantintel_mpiwith_mpitrue</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_runner_variantintel" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_inteltruerunner_variantintel_mpiwith_mpitrue" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_runner_variantintel_mpi</td>
+              <td>osx_64_is_inteltruerunner_variantintelwith_mpifalse</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_runner_variantintel_mpi" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_inteltruerunner_variantintelwith_mpifalse" alt="variant">
                 </a>
               </td>
             </tr>

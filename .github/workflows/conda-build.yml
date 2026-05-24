@@ -22,25 +22,25 @@ jobs:
       max-parallel: 50
       matrix:
         include:
-          - CONFIG: linux_64_runner_variantgnu
+          - CONFIG: linux_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-          - CONFIG: linux_64_runner_variantgnu_mpi
+          - CONFIG: linux_64_is_intelfalserunner_variantgnuwith_mpifalse
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-          - CONFIG: linux_64_runner_variantintel
+          - CONFIG: linux_64_is_inteltruerunner_variantintel_mpiwith_mpitrue
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-          - CONFIG: linux_64_runner_variantintel_mpi
+          - CONFIG: linux_64_is_inteltruerunner_variantintelwith_mpifalse
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
