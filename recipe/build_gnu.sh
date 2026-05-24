@@ -37,5 +37,5 @@ mkdir -p "${PREFIX}/bin" "${PREFIX}/lib"
 if [[ "${with_mpi}" = "true" ]]; then
     compile "RuNNer_mpi.x" "libRuNNer_mpi.${LIB_EXT}" "mpif90" ON
 else
-    compile "RuNNer.x" "libRuNNer.${LIB_EXT}" "gfortran" OFF
+    compile "RuNNer.x" "libRuNNer.${LIB_EXT}" "${FC}" OFF
 fi

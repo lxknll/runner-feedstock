@@ -27,8 +27,8 @@ requirements:
     - m4
     - if: is_intel
       then:
-        - ifx_linux-64==2026.0.0
-        - dpcpp_linux-64==2026.0.0
+        - ifx_linux-64 == 2026.0.0
+        - dpcpp_linux-64 == 2026.0.0
       else:
         - ${{ compiler('c') }}
         - ${{ stdlib('c') }}
@@ -37,11 +37,11 @@ requirements:
   host:
     - if: is_intel
       then:
-        - mkl==2026.0.0
-        - mkl-include==2026.0.0
-        - mkl-devel==2026.0.0
-        - mkl-static==2026.0.0
-        - intel-cmplr-lib-rt==2026.0.0
+        - mkl == 2026.0.0
+        - mkl-include == 2026.0.0
+        - mkl-devel == 2026.0.0
+        - mkl-static == 2026.0.0
+        - intel-cmplr-lib-rt == 2026.0.0
       else:
         - libblas
         - liblapack
@@ -64,9 +64,9 @@ requirements:
   run:
     - if: is_intel
       then:
-        - mkl==2026.0.0
-        - intel-fortran-rt==2026.0.0
-        - intel-cmplr-lib-rt==2026.0.0
+        - mkl == 2026.0.0
+        - intel-fortran-rt == 2026.0.0
+        - intel-cmplr-lib-rt == 2026.0.0
       else:
         - libblas
         - liblapack
