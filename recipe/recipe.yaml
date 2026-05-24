@@ -18,7 +18,7 @@ source:
 build:
   number: 0
   string: "${{ runner_variant }}_h${{ hash }}_${{ build_number }}"
-  skip: not (linux or osx)
+  skip: not (linux or osx) or (is_intel and osx)
 
 requirements:
   build:
@@ -56,7 +56,7 @@ requirements:
     # MPI libraries differ between GNU and Intel toolchain.
     - if: is_intel and with_mpi
       then:
-        - impi-devel
+        - openmpi-mpiicx
     - if: not is_intel and with_mpi
       then:
         - openmpi
@@ -81,7 +81,7 @@ requirements:
     # MPI libraries differ between GNU and Intel toolchain.
     - if: is_intel and with_mpi
       then:
-        - impi-devel
+        - openmpi-mpiicx
     - if: not is_intel and with_mpi
       then:
         - openmpi
@@ -111,7 +111,7 @@ about:
     high-dimensional neural network potentials (HDNNPs), actively developed
     at Ruhr Universität Bochum, Germany.
 
-    Four build variants are provided under the single package name ``runner``:
+    Three build variants are provided under the single package name ``runner``:
 
     gnu
       GCC/gfortran, OpenBLAS, serial only.  Linux and macOS.
@@ -122,15 +122,13 @@ about:
     intel
       Intel ifx, MKL, serial only.  Linux x86-64 only.
 
-    intel_mpi
-      Intel ifx, MKL, Intel MPI parallel build.  Linux x86-64 only.
-
     Select a specific variant with a build-string glob, e.g.::
 
       conda install "runner=*=gnu_*"   # GNU serial
       conda install "runner=*=gnu_mpi_*"   # GNU parallel
       conda install "runner=*=intel_*"   # Intel serial
-      conda install "runner=*=intel_mpi_*"   # Intel parallel
+
+    A parallel Intel variant is not provided.
   documentation: https://runner-suite.gitlab.io/runner2
   repository: https://gitlab.com/runner-suite/runner2
 
