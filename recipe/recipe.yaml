@@ -4,6 +4,7 @@ schema_version: 1
 context:
   name: runner
   version: "2.0.0_20260512"
+  intel_version: "2026.0.0"
 
 package:
   name: "runner"
@@ -27,8 +28,8 @@ requirements:
     - m4
     - if: is_intel
       then:
-        - ifx_linux-64 ==2026.0.0
-        - dpcpp_linux-64 ==2026.0.0
+        - ifx_linux-64 ==${{ intel_version }}
+        - dpcpp_linux-64 ==${{ intel_version }}
       else:
         - ${{ compiler('c') }}
         - ${{ stdlib('c') }}
@@ -37,11 +38,11 @@ requirements:
   host:
     - if: is_intel
       then:
-        - mkl ==2026.0.0
-        - mkl-include ==2026.0.0
-        - mkl-devel ==2026.0.0
-        - mkl-static ==2026.0.0
-        - intel-cmplr-lib-rt ==2026.0.0
+        - mkl ==${{ intel_version }}
+        - mkl-include ==${{ intel_version }}
+        - mkl-devel ==${{ intel_version }}
+        - mkl-static ==${{ intel_version }}
+        - intel-cmplr-lib-rt ==${{ intel_version }}
       else:
         - libblas
         - liblapack
@@ -64,9 +65,9 @@ requirements:
   run:
     - if: is_intel
       then:
-        - mkl ==2026.0.0
-        - intel-fortran-rt ==2026.0.0
-        - intel-cmplr-lib-rt ==2026.0.0
+        - mkl ==${{ intel_version }}
+        - intel-fortran-rt ==${{ intel_version }}
+        - intel-cmplr-lib-rt ==${{ intel_version }}
       else:
         - libblas
         - liblapack
