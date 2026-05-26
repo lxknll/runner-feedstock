@@ -8,13 +8,13 @@ jobs:
     vmImage: $(VMIMAGE)
   strategy:
     matrix:
-      osx_64_mpimpich:
-        CONFIG: osx_64_mpimpich
+      osx_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue:
+        CONFIG: osx_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
         store_build_artifacts: false
-      osx_64_mpiopenmpi:
-        CONFIG: osx_64_mpiopenmpi
+      osx_64_is_intelfalserunner_variantgnuwith_mpifalse:
+        CONFIG: osx_64_is_intelfalserunner_variantgnuwith_mpifalse
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
         store_build_artifacts: false

@@ -3,22 +3,38 @@ About runner-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/runner-feedstock/blob/main/LICENSE.txt)
 
-Home: https://www.uni-goettingen.de/de/560580.html
+Home: https://www.theochem2.ruhr-uni-bochum.de/tc/software/runner.html.en
 
 Package license: GPL-3.0-or-later
 
 Summary: RuNNer - a Neural Network code for high-dimensional systems
 
-Development: https://gitlab.com/TheochemGoettingen/runner-wfas/
+Development: https://gitlab.com/runner-suite/runner2
 
-Documentation: https://www.uni-goettingen.de/de/560580.html
+Documentation: https://runner-suite.gitlab.io/runner2
 
-In order to develop Neural Network potential-energy surfaces for a
-variety of system, we have developed our in-house NN code for
-high-dimensional systems called RuNNer, which was the first
-implementation of high-dimensional NN potentials. Much of the
-methodology has been originally developed with this code.
+RuNNer is a software framework for the development of Behler-Parrinello
+high-dimensional neural network potentials (HDNNPs), actively developed
+at Ruhr Universität Bochum, Germany.
 
+Three build variants are provided under the single package name ``runner``:
+
+gnu
+  GCC/gfortran, OpenBLAS, serial only.  Linux and macOS.
+
+gnu_mpi
+  GCC/gfortran, OpenBLAS, OpenMPI parallel build.  Linux and macOS.
+
+intel
+  Intel ifx, MKL, serial only.  Linux x86-64 only.
+
+Select a specific variant with a build-string glob, e.g.::
+
+  conda install "runner=*=gnu_*"   # GNU serial
+  conda install "runner=*=gnu_mpi_*"   # GNU parallel
+  conda install "runner=*=intel_*"   # Intel serial
+
+A parallel Intel variant is not provided.
 
 Current build status
 ====================
@@ -38,31 +54,38 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64_mpimpich</td>
+              <td>linux_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_mpimpich" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_mpiopenmpi</td>
+              <td>linux_64_is_intelfalserunner_variantgnuwith_mpifalse</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_mpiopenmpi" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_is_intelfalserunner_variantgnuwith_mpifalse" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_mpimpich</td>
+              <td>linux_64_is_inteltruerunner_variantintelwith_mpifalse</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_mpimpich" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_is_inteltruerunner_variantintelwith_mpifalse" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_mpiopenmpi</td>
+              <td>osx_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_mpiopenmpi" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_intelfalserunner_variantgnu_mpiwith_mpitrue" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_is_intelfalserunner_variantgnuwith_mpifalse</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12016&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/runner-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_is_intelfalserunner_variantgnuwith_mpifalse" alt="variant">
                 </a>
               </td>
             </tr>

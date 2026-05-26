@@ -1,3 +1,19 @@
-mpi:
-  - mpich
-  - openmpi
+runner_variant:
+  - gnu
+  - gnu_mpi
+  - intel
+
+is_intel:
+  - false
+  - false
+  - true
+
+with_mpi:
+  - false
+  - true
+  - false
+
+zip_keys:
+  - - runner_variant
+    - is_intel
+    - with_mpi
