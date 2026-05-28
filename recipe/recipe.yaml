@@ -1,10 +1,8 @@
-
 schema_version: 1
 
 context:
   name: runner
   version: "2.0.0_20260512"
-  intel_version: "2026.0.0"
 
 package:
   name: "runner"
@@ -17,7 +15,7 @@ source:
   sha256: c362553ae2aaaac7acea89ae2d3cf5a210fc0992943a9b39ad43d27208e420df
 
 build:
-  number: 0
+  number: 1
   string: "${{ runner_variant }}_h${{ hash }}_${{ build_number }}"
   skip: not (linux or osx) or (is_intel and osx)
 
@@ -28,8 +26,8 @@ requirements:
     - m4
     - if: is_intel
       then:
-        - ifx_linux-64 ==${{ intel_version }}
-        - dpcpp_linux-64 ==${{ intel_version }}
+        - ifx_linux-64
+        - dpcpp_linux-64
       else:
         - ${{ compiler('c') }}
         - ${{ stdlib('c') }}
@@ -38,11 +36,11 @@ requirements:
   host:
     - if: is_intel
       then:
-        - mkl ==${{ intel_version }}
-        - mkl-include ==${{ intel_version }}
-        - mkl-devel ==${{ intel_version }}
-        - mkl-static ==${{ intel_version }}
-        - intel-cmplr-lib-rt ==${{ intel_version }}
+        - mkl
+        - mkl-include
+        - mkl-devel
+        - mkl-static
+        - intel-cmplr-lib-rt
       else:
         - libblas
         - liblapack
@@ -50,7 +48,7 @@ requirements:
     # OpenMP libraries for GNU differ between Linux and OSX.
     - if: not is_intel and linux
       then:
-      - libgomp
+        - libgomp
     - if: not is_intel and osx
       then:
         - llvm-openmp
@@ -65,9 +63,9 @@ requirements:
   run:
     - if: is_intel
       then:
-        - mkl ==${{ intel_version }}
-        - intel-fortran-rt ==${{ intel_version }}
-        - intel-cmplr-lib-rt ==${{ intel_version }}
+        - mkl
+        - intel-fortran-rt
+        - intel-cmplr-lib-rt
       else:
         - libblas
         - liblapack
@@ -75,7 +73,7 @@ requirements:
     # OpenMP libraries for GNU differ between Linux and OSX.
     - if: not is_intel and linux
       then:
-      - libgomp
+        - libgomp
     - if: not is_intel and osx
       then:
         - llvm-openmp
@@ -89,17 +87,17 @@ requirements:
 
 tests:
   - script:
-    - if: with_mpi
-      then:
-        - RuNNer_mpi.x --version
-      else:
-        - RuNNer.x --version
-    - if: is_intel and not with_mpi
-      then:
-        - ldd $(which RuNNer.x) | grep -i mkl
-    - if: is_intel and with_mpi
-      then:
-        - ldd $(which RuNNer_mpi.x) | grep -i mkl
+      - if: with_mpi
+        then:
+          - RuNNer_mpi.x --version
+        else:
+          - RuNNer.x --version
+      - if: is_intel and not with_mpi
+        then:
+          - ldd $(which RuNNer.x) | grep -i mkl
+      - if: is_intel and with_mpi
+        then:
+          - ldd $(which RuNNer_mpi.x) | grep -i mkl
 
 about:
   homepage: https://www.theochem2.ruhr-uni-bochum.de/tc/software/runner.html.en
