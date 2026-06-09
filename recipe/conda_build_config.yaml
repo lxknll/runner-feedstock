@@ -1,6 +1,6 @@
 runner_variant:
   - gnu_omp
-  - gnu_mpi
+  - gnu_mpi_omp
   - intel
 
 is_intel:
