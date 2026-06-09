@@ -1,6 +1,6 @@
 runner_variant:
-  - gnu
-  - gnu_mpi
+  - gnu_omp
+  - gnu_mpi_omp
   - intel
 
 is_intel:
@@ -13,7 +13,13 @@ with_mpi:
   - true
   - false
 
+c_stdlib_version:    # [linux]
+  - "2.17"           # [linux]
+  - "2.17"           # [linux]
+  - "2.28"           # [linux]
+
 zip_keys:
   - - runner_variant
     - is_intel
     - with_mpi
+    - c_stdlib_version  # [linux]
