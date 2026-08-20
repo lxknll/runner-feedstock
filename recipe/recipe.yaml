@@ -40,6 +40,8 @@ requirements:
         - mkl-include
         - mkl-devel
         - mkl-static
+        - intel-cmplr-lib-rt
+        - libhwloc * default_*
       else:
         - libblas
         - liblapack
@@ -63,6 +65,8 @@ requirements:
     - if: is_intel
       then:
         - mkl
+        - intel-fortran-rt
+        - intel-cmplr-lib-rt
       else:
         - libblas
         - liblapack
