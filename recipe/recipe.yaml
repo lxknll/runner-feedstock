@@ -3,6 +3,7 @@ schema_version: 1
 context:
   name: runner
   version: "2.0.0_20260512"
+  intel_rt_ver: ">=2026.0"
 
 package:
   name: "runner"
@@ -40,8 +41,7 @@ requirements:
         - mkl-include
         - mkl-devel
         - mkl-static
-        - intel-cmplr-lib-rt
-        - libhwloc * default_*
+        - intel-cmplr-lib-rt ${{ intel_rt_ver }}
       else:
         - libblas
         - liblapack
@@ -65,8 +65,8 @@ requirements:
     - if: is_intel
       then:
         - mkl
-        - intel-fortran-rt
-        - intel-cmplr-lib-rt
+        - intel-fortran-rt ${{ intel_rt_ver }}
+        - intel-cmplr-lib-rt ${{ intel_rt_ver }}
       else:
         - libblas
         - liblapack
