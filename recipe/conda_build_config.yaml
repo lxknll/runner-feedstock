@@ -20,6 +20,8 @@ c_stdlib_version:    # [linux]
 
 override_cuda:
   - "12.0"
+  - "12.0"
+  - "12.0"
 
 zip_keys:
   - - runner_variant
