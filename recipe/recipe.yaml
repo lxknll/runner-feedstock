@@ -41,7 +41,7 @@ requirements:
         - mkl-devel
         - mkl-static
         - intel-cmplr-lib-rt
-	- libhwloc =*=*cpu*
+        - libhwloc =*=*cpu*
       else:
         - libblas
         - liblapack
