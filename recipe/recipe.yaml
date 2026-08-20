@@ -29,7 +29,7 @@ requirements:
     - if: is_intel
       then:
         - ifx_linux-64
-        - dpcpp_linux-64
+        # - dpcpp_linux-64
       else:
         - ${{ compiler('c') }}
         - ${{ compiler('fortran') }}
