@@ -85,6 +85,17 @@ requirements:
       then:
         - openmpi
 
+  # ``dpcpp_linux-64`` is only needed at build time to provide ``icx``.  Its
+  # run export drags in the whole SYCL/OpenCL stack (``dpcpp-cpp-rt`` ->
+  # ``intel-cmplr-lib-ur`` -> ``umf`` -> ``libhwloc >=2.13``), which is both
+  # unused here and unsolvable: since 2026.1.1 ``intel-fortran-rt`` depends on
+  # ``mpich``, which requires ``libhwloc <2.12.3``.  RuNNer links only against
+  # libimf/libintlc/libsvml (intel-cmplr-lib-rt), libifcoremt (intel-fortran-rt)
+  # and MKL, so the SYCL runtime can be dropped safely.
+  ignore_run_exports:
+    by_name:
+      - dpcpp-cpp-rt
+
 tests:
   - script:
       - if: with_mpi
@@ -135,6 +146,7 @@ extra:
   recipe-maintainers:
     - Theochem2RUB
     - gunnar1987
+    - mirajkovic
     - lxknll
     - M0M097
     - jan-janssen
